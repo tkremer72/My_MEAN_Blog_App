@@ -33,3 +33,11 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 3. The first component to this application 
   a. ng g c components/blogs/blog-create
 
+4. Installing Angular Material 
+  a. ng add @angular/material
+
+5. Create a new header component using the cli
+  ng g c components/header
+
+
+

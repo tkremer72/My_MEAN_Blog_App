@@ -2,11 +2,19 @@
   <textarea rows="6" [value]="newBlog" #blogInput></textarea>
  -->
  <!-- Two way data binding to get the input below -->
- <textarea rows="6" [(ngModel)]="enteredValue"></textarea>
- <hr>
-<!-- <button (click)="onAddBlog(blogInput)">Save Blog</button>
+ <mat-card>
+  <mat-form-field>
+    <textarea matInput rows="6" [(ngModel)]="enteredValue"></textarea>
+   </mat-form-field>
+  <button
+  color="primary"
+  mat-raised-button
+  (click)="onAddBlog()">
+  Save Blog
+</button>
+</mat-card>
+<!--  <hr>
+ --><!-- <button (click)="onAddBlog(blogInput)">Save Blog</button>
  -->
- <button (click)="onAddBlog()">Save Blog</button>
-
  <!-- String interpolation below -->
 <p>{{ newBlog }}</p>
