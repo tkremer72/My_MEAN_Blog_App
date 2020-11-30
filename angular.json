@@ -119,6 +119,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "mean-blog"
+    }
+  },
+  "defaultProject": "mean-blog",
+  "cli": {
+    "analytics": false
+  }
 }
