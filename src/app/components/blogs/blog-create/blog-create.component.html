@@ -1,0 +1,12 @@
+<!--  Manually setting the textarea input values
+  <textarea rows="6" [value]="newBlog" #blogInput></textarea>
+ -->
+ <!-- Two way data binding to get the input below -->
+ <textarea rows="6" [(ngModel)]="enteredValue"></textarea>
+ <hr>
+<!-- <button (click)="onAddBlog(blogInput)">Save Blog</button>
+ -->
+ <button (click)="onAddBlog()">Save Blog</button>
+
+ <!-- String interpolation below -->
+<p>{{ newBlog }}</p>
