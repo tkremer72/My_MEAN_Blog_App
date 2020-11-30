@@ -1,12 +1,27 @@
 <!--  Manually setting the textarea input values
   <textarea rows="6" [value]="newBlog" #blogInput></textarea>
  -->
- <!-- Two way data binding to get the input below -->
- <textarea rows="6" [(ngModel)]="enteredValue"></textarea>
- <hr>
+<!-- Two way data binding to get the input below -->
+<mat-card>
+  <form (submit)="onAddBlog(blogForm)" #blogForm="ngForm">
+    <mat-form-field>
+      <input matInput type="text" name="title" ngModel required minlength="3" #title="ngModel">
+      <mat-error *ngIf="title.invalid">Please enter a blog title.</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <textarea matInput rows="6" name="content" ngModel required #content="ngModel"></textarea>
+      <mat-error *ngIf="content.invalid">Please enter some blog content.</mat-error>
+
+    </mat-form-field>
+    <button color="primary" mat-raised-button type="submit">
+      Save Blog
+    </button>
+  </form>
+</mat-card>
+<!--  <hr>
+ -->
 <!-- <button (click)="onAddBlog(blogInput)">Save Blog</button>
  -->
- <button (click)="onAddBlog()">Save Blog</button>
-
- <!-- String interpolation below -->
-<p>{{ newBlog }}</p>
+<!-- String interpolation below -->
+<!-- Moved the blog output to the blog-list component <p>{{ newBlog }}</p>
+ -->

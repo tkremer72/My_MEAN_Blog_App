@@ -1,5 +1,11 @@
-<h2>My First App!</h2>
+<app-header></app-header>
 
-<app-blog-create></app-blog-create>
+<main>
+
+  <app-blog-create (blogCreated)="onBlogAdded($event)"></app-blog-create>
+
+  <app-blog-list [blogs]="storedBlogs"></app-blog-list>
+
+</main>
 
 <router-outlet></router-outlet>
