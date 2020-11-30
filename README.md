@@ -29,3 +29,4 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 # Modifications I have made to this project.
 
 1.  Starting with the app.component.html file, I removed all the original boiler plate code and replaced it with an h2 tag that says My First App.
+2. Created new development branch to start out working on.
