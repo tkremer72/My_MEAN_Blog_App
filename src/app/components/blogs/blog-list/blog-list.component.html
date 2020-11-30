@@ -1,0 +1,18 @@
+<!-- Conditional rendering below says don't show the accordion if there are no blogs -->
+<mat-accordion multi="true" *ngIf="blogs.length > 0">
+
+  <mat-expansion-panel *ngFor="let blog of blogs">
+
+<mat-expansion-panel-header>
+
+{{ blog.title }}
+
+</mat-expansion-panel-header>
+
+<p>{{ blog.content }}</p>
+
+  </mat-expansion-panel>
+
+</mat-accordion>
+<!-- Conditional rendering says show the paragraph below if the blogs are less than or equal to zero -->
+<p class="info-text mat-body-1" *ngIf="blogs.length <= 0">No blogs have been added yet, please feel free to create one.</p>

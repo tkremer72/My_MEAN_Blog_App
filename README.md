@@ -39,5 +39,7 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 5. Create a new header component using the cli
   ng g c components/header
 
+6. Create a new component, blog-list component 
+  ng g c components/blogs/blog-list
 
-
+7. Create a blog model 
