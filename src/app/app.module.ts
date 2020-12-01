@@ -15,6 +15,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatInputModule } from '@angular/material/input';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 import { BlogCreateComponent } from './components/blogs/blog-create/blog-create.component';
@@ -40,6 +41,7 @@ import { BlogListComponent } from './components/blogs/blog-list/blog-list.compon
     MatExpansionModule,
     MatInputModule,
     MatToolbarModule,
+    MatProgressSpinnerModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -58,5 +58,15 @@ npm install --save body-parser
 
 npm install --save mongoose
 
+Add routing to the application, style the header toolbar and use custom classes provided by Angular Material.
+
+Created the link and functionality to update posts and to load a single post to populate the form to update those posts.
+
+Create a routes folder on the backend root to start organizing our code for our routes.
+
+Add loading spinners on the frontend.
+
+
+
 
 

@@ -3,20 +3,46 @@
  -->
 <!-- Two way data binding to get the input below -->
 <mat-card>
-  <form (submit)="onAddBlog(blogForm)" #blogForm="ngForm">
+  <!-- Show the spinner if isLoading is true -->
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+
+  <form (submit)="onSaveBlog(blogForm)" #blogForm="ngForm" *ngIf="!isLoading">
     <mat-form-field>
-      <input matInput type="text" name="title" ngModel required minlength="3" #title="ngModel" placeholder="Blog title">
+      <input
+      matInput
+      type="text"
+      name="title"
+      [ngModel]="blog?.title"
+      required
+      minlength="3"
+      #title="ngModel"
+      placeholder="Blog title">
+
       <mat-error *ngIf="title.invalid">Please enter a blog title.</mat-error>
+
     </mat-form-field>
+
     <mat-form-field>
-      <textarea matInput rows="6" name="content" ngModel required #content="ngModel" placeholder="Blog content"></textarea>
+
+      <textarea
+      matInput
+      rows="6"
+      name="content"
+      [ngModel]="blog?.content"
+      required
+      #content="ngModel"
+      placeholder="Blog content"></textarea>
+
       <mat-error *ngIf="content.invalid">Please enter some blog content.</mat-error>
 
     </mat-form-field>
+
     <button color="primary" mat-raised-button type="submit">
       Save Blog
     </button>
+
   </form>
+
 </mat-card>
 <!--  <hr>
  -->

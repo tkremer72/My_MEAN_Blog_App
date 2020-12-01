@@ -39,25 +39,28 @@ export class BlogListComponent implements OnInit, OnDestroy {
   ]; */
   //Set the blogs to an empty array
 /*   @Input()  */ blogs: Blog[] = [];
-private blogsSub: Subscription;
+  isLoading = false;
+  private blogsSub: Subscription;
 
   constructor(
     public blogsService: BlogsService
   ) { }
 
   ngOnInit() {
+    this.isLoading = true;
     this.blogsService.getBlogs();
     this.blogsSub = this.blogsService.getBlogUpdateListener().subscribe((blogs: Blog[]) => {
+      this.isLoading = false;
       this.blogs = blogs;
     });
   }
-onDelete(blogId: string) {
-  this.blogsService.deleteBlog(blogId);
-}
+  onDelete(blogId: string) {
+    this.blogsService.deleteBlog(blogId);
+  }
 
-ngOnDestroy() {
-  //Remove the subscription and prevent memory leaks
-  this.blogsSub.unsubscribe();
-}
+  ngOnDestroy() {
+    //Remove the subscription and prevent memory leaks
+    this.blogsSub.unsubscribe();
+  }
 
 }
