@@ -2,7 +2,11 @@
   width: 80%;
   margin: auto;
  } */
+mat-spinner {
+  margin: auto;
+}
 
  text-area, mat-form-field {
    width: 100%;
  }
+
