@@ -51,6 +51,10 @@ private blogsSub: Subscription;
       this.blogs = blogs;
     });
   }
+onDelete(blogId: string) {
+  this.blogsService.deleteBlog(blogId);
+}
+
 ngOnDestroy() {
   //Remove the subscription and prevent memory leaks
   this.blogsSub.unsubscribe();

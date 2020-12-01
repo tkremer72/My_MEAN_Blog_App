@@ -1,13 +1,25 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const mongoose = require('mongoose');
+
+const Blog = require('./models/blog');
 
 const app = express()
 
-.use(bodyParser.json())
-.use(bodyParser.urlencoded({extended: false}))
+mongoose.connect(
+  'mongodb+srv://tbone7243:Daddykjune1!@cluster0.lebuw.mongodb.net/My_MERN_Blog?retryWrites=true&w=majority',
+  { useUnifiedTopology: true, useNewUrlParser: true }
+).then(() => {
+  console.log('Connected to the database!');
+}).catch(() => {
+  console.log('Connection failed!')
+})
+
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: false }))
 //Below is the automatic CORS policy set by express.
-.use(cors())
+app.use(cors())
 
 //Below is manually setting the CORS Policy
 /* app.use((req, res, next) => {
@@ -17,24 +29,40 @@ const app = express()
  next();
 }); */
 
-.post('/api/blogs', (req, res, next) => {
-  const blog = req.body;
-  console.log(blog);
-  res.status(201).json({
-    message: 'Blog added successfully!'
+app.post('/api/blogs', (req, res, next) => {
+  const blog = new Blog({
+    title: req.body.title,
+    content: req.body.content
   });
-})
-
-.get('/api/blogs', (req, res, next) => {
-  const blogs = [
-    { id: '1232121', title: "First server side blog", content: 'This is coming from the server' },
-    { id: '1232122', title: "Second server side blog", content: 'This is coming from the server!' },
-    { id: '1232123', title: "Third server side blog", content: 'This is coming from the server!!' }
-  ];
-  res.status(200).json({
-    message: 'Blogs fetched successfully!',
-    blogs: blogs
+  //console.log(blog);
+  blog.save().then(createdBlog => {
+    res.status(201).json({
+      message: 'Blog added successfully!',
+      blogId: createdBlog._id
+    });
   });
-})
+});
 
+app.get('/api/blogs', (req, res, next) => {
+  Blog.find().then(documents => {
+    //console.log(documents)
+    res.status(200).json({
+      message: 'Blogs fetched successfully!',
+      blogs: documents
+    });
+  });
+});
+
+app.delete('/api/blogs/:id', (req, res, next) => {
+  //console.log(req.params.id);
+  Blog.deleteOne({
+    _id: req.params.id
+  })
+  .then(result => {
+    //console.log(result);
+    res.status(200).json({
+      message: 'Blog deleted'
+    });
+  });
+});
 module.exports = app;
