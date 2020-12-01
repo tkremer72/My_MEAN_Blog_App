@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { Blog } from './components/blogs/blog.model';
+//import { Blog } from './components/blogs/blog.model';
 
 @Component({
   selector: 'app-root',
@@ -8,10 +8,10 @@ import { Blog } from './components/blogs/blog.model';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  storedBlogs: Blog[] = [];
-  
+  /* storedBlogs: Blog[] = [];
+
   onBlogAdded(blog) {
     this.storedBlogs.push(blog);
-  }
+  } */
 
 }

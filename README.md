@@ -43,3 +43,20 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
   ng g c components/blogs/blog-list
 
 7. Create a blog model 
+
+8. Create a service to get posts 
+ng g s components/shared/services/blogs
+
+Create a server.js file in the root, create a folder called backend in the root of the Angular project, create a file called app.js that lives in the backend folder.
+
+add a new start script to the package.json file
+
+npm install --save-dev nodemon
+npm install --save express
+npm install --save cors
+npm install --save body-parser
+
+npm install --save mongoose
+
+
+

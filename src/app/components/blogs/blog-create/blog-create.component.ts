@@ -1,7 +1,8 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { BlogsService } from '../../shared/services/blogs.service';
 
-import { Blog } from '../blog.model';
+//import { Blog } from '../blog.model';
 
 @Component({
   selector: 'app-blog-create',
@@ -14,9 +15,11 @@ export class BlogCreateComponent implements OnInit {
   //Using two way data binding to extract input
 enteredTitle = '';
 enteredContent = '';
-@Output() blogCreated = new EventEmitter<Blog>();
-
-  constructor() { }
+/* @Output() blogCreated = new EventEmitter<Blog>();
+ */
+  constructor(
+    public blogsService: BlogsService
+  ) { }
 
   ngOnInit() {
   }
@@ -32,12 +35,14 @@ enteredContent = '';
     if(form.invalid) {
       return;
     }
-    const blog: Blog = {
-      // title: this.enteredTitle,
-      // content: this.enteredContent
-      title: form.value.title,
-      content: form.value.content
-    };
-    this.blogCreated.emit(blog);
+    // const blog: Blog = {
+    //   // title: this.enteredTitle,
+    //   // content: this.enteredContent
+    //   title: form.value.title,
+    //   content: form.value.content
+    // };
+    this.blogsService.addBlog(form.value.title, form.value.content);
+    //reset the form after clicking submit
+    form.resetForm();
   }
 }
