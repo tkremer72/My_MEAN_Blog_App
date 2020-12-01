@@ -2,10 +2,12 @@
 
 <main>
 
-  <app-blog-create (blogCreated)="onBlogAdded($event)"></app-blog-create>
-
-  <app-blog-list [blogs]="storedBlogs"></app-blog-list>
-
+<!--   <app-blog-create (blogCreated)="onBlogAdded($event)"></app-blog-create>
+ -->
+ <app-blog-create></app-blog-create>
+<!--   <app-blog-list [blogs]="storedBlogs"></app-blog-list>
+ -->
+ <app-blog-list> </app-blog-list>
 </main>
 
 <router-outlet></router-outlet>

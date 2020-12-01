@@ -1,4 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+
+import { BlogsService } from '../../shared/services/blogs.service';
 
 import { Blog } from '../blog.model';
 
@@ -7,7 +10,7 @@ import { Blog } from '../blog.model';
   templateUrl: './blog-list.component.html',
   styleUrls: ['./blog-list.component.css']
 })
-export class BlogListComponent implements OnInit {
+export class BlogListComponent implements OnInit, OnDestroy {
   //Create some dummy blogs
 /*   blogs = [
     {
@@ -35,11 +38,22 @@ export class BlogListComponent implements OnInit {
     }
   ]; */
   //Set the blogs to an empty array
-  @Input() blogs: Blog[] = [];
+/*   @Input()  */ blogs: Blog[] = [];
+private blogsSub: Subscription;
 
-  constructor() { }
+  constructor(
+    public blogsService: BlogsService
+  ) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
+    this.blogsService.getBlogs();
+    this.blogsSub = this.blogsService.getBlogUpdateListener().subscribe((blogs: Blog[]) => {
+      this.blogs = blogs;
+    });
   }
+ngOnDestroy() {
+  //Remove the subscription and prevent memory leaks
+  this.blogsSub.unsubscribe();
+}
 
 }
