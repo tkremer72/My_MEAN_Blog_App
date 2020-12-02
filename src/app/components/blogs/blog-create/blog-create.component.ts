@@ -4,6 +4,7 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 import { BlogsService } from '../../shared/services/blogs.service';
 
 import { Blog } from '../../shared/models/blog.model';
+import { mimeType } from '../../shared/models/mime-type.validator';
 
 @Component({
   selector: 'app-blog-create',
@@ -38,7 +39,10 @@ export class BlogCreateComponent implements OnInit {
         validators: [ Validators.required, Validators.minLength(3) ]
       }),
       'content': new FormControl(null, { validators: [ Validators.required ] }),
-      'image': new FormControl(null, { validators: [ Validators.required ] })
+      'image': new FormControl(null, {
+        validators: [ Validators.required ],
+        asyncValidators: [ mimeType ]
+      })
     });
 
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
@@ -53,11 +57,13 @@ export class BlogCreateComponent implements OnInit {
           this.blog = {
             id: blogData._id,
             title: blogData.title,
-            content: blogData.content
+            content: blogData.content,
+            imagePath: blogData.imagePath
           };
           this.form.setValue({
             'title': this.blog.title,
-            'content': this.blog.content
+            'content': this.blog.content,
+            'image': this.blog.imagePath
           })
         });
       } else {
@@ -100,9 +106,17 @@ export class BlogCreateComponent implements OnInit {
     // };
     //Check which mode we are in
     if (this.mode === 'create') {
-      this.blogsService.addBlog(this.form.value.title, this.form.value.content);
+      this.blogsService.addBlog(
+        this.form.value.title,
+        this.form.value.content,
+        this.form.value.image
+        );
     } else {
-      this.blogsService.updateBlog(this.blogId, this.form.value.title, this.form.value.content);
+      this.blogsService.updateBlog(
+        this.blogId, this.form.value.title,
+        this.form.value.content,
+        this.form.value.image
+        );
     }
     //reset the form after clicking submit
     this.form.reset();

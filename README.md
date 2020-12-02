@@ -66,6 +66,14 @@ Create a routes folder on the backend root to start organizing our code for our 
 
 Add loading spinners on the frontend.
 
+Creating a mime-type validator file to use with the image upload in the blog-create component. 
+
+Create the file upload functionality on the backend starting with installing multer.
+npm install --save multer
+
+Next steps are to add pagination to the project on the front and backend. 
+
+
 
 
 
