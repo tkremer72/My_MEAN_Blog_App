@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 // Bring in the FormsModule
 //import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -17,6 +17,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+//Bring in the AuthInterceptor
+import { AuthInterceptor } from './components/shared/interceptors/auth.interceptor';
 
 
 import { BlogCreateComponent } from './components/blogs/blog-create/blog-create.component';
@@ -49,7 +51,14 @@ import { LoginComponent } from './components/auth/login/login.component';
     MatPaginatorModule,
     MatProgressSpinnerModule,
   ],
-  providers: [],
+  providers: [{
+/* We must provide the AuthInterceptor to the app setting multi to true tells
+Angular not to override existing intercpetors but to add ours as an additional
+interceptor */
+provide: HTTP_INTERCEPTORS,
+    useClass: AuthInterceptor,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
