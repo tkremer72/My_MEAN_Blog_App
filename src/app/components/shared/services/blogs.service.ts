@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 
 import { Subject } from 'rxjs';
 //Bring in the Blog model
-import { Blog } from '../../../components/blogs/blog.model';
+import { Blog } from '../models/blog.model';
 
 @Injectable({
   providedIn: 'root'
