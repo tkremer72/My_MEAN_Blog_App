@@ -27,7 +27,7 @@ const storage = multer.diskStorage({
     cb(null, name + '-' + Date.now() + '.' + ext);
   }
 });
-
+//Create a new blog
 router.post('', multer({ storage: storage }).single('image'), (req, res, next) => {
   const url = req.protocol + '://' + req.get("host");
   const blog = new Blog({
@@ -49,7 +49,7 @@ router.post('', multer({ storage: storage }).single('image'), (req, res, next) =
     });
   });
 });
-
+//Update a blog
 router.put('/:id', multer({ storage: storage }).single('image'),
 (req, res, next) => {
   //console.log(req.file);
@@ -71,16 +71,32 @@ router.put('/:id', multer({ storage: storage }).single('image'),
     res.status(200).json({ message: 'Update successful!' });
   });
 });
-
+//Get all of the blogs in the database
 router.get('', (req, res, next) => {
-  Blog.find().then(documents => {
+  //console.log(req.query);
+  const pageSize = +req.query.pagesize;
+  const currentPage = +req.query.page;
+  const blogQuery = Blog.find();
+  let fetchedBlogs;
+  if(pageSize && currentPage) {
+    blogQuery
+    .skip(pageSize * (currentPage - 1))
+    .limit(pageSize);
+  }
+  blogQuery
+  .then(documents => {
+    fetchedBlogs = documents;
     //console.log(documents)
+   return Blog.countDocuments();
+  }).then(count => {
     res.status(200).json({
       message: 'Blogs fetched successfully!',
-      blogs: documents
+      blogs: fetchedBlogs,
+      maxBlogs: count
     });
-  });
+  })
 });
+//Get a single blog to populate the edit blog form
 router.get('/:id', (req, res, next) => {
   Blog.findById(req.params.id).then(blog => {
     if(blog) {
@@ -90,7 +106,7 @@ router.get('/:id', (req, res, next) => {
     }
   });
 });
-
+//Delete a blog
 router.delete('/:id', (req, res, next) => {
   //console.log(req.params.id);
   Blog.deleteOne({

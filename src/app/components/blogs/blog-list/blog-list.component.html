@@ -23,5 +23,7 @@
   </mat-expansion-panel>
 
 </mat-accordion>
+<!-- Add the paginator component  -->
+<mat-paginator [length]="totalBlogs" [pageSize]="blogsPerPage" [pageSizeOptions]="pageSizeOptions" (page)="onChangedPage($event)" *ngIf="blogs.length > 0"></mat-paginator>
 <!-- Conditional rendering says show the paragraph below if the blogs are less than or equal to zero -->
 <p class="info-text mat-body-1" *ngIf="blogs.length <= 0 && !isLoading">No blogs have been added yet, please feel free to create one.</p>

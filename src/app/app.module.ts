@@ -15,19 +15,24 @@ import { MatCardModule } from '@angular/material/card';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatInputModule } from '@angular/material/input';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 import { BlogCreateComponent } from './components/blogs/blog-create/blog-create.component';
 import { HeaderComponent } from './components/header/header.component';
 import { BlogListComponent } from './components/blogs/blog-list/blog-list.component';
+import { SignupComponent } from './components/auth/signup/signup.component';
+import { LoginComponent } from './components/auth/login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     BlogCreateComponent,
     HeaderComponent,
-    BlogListComponent
+    BlogListComponent,
+    SignupComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -41,6 +46,7 @@ import { BlogListComponent } from './components/blogs/blog-list/blog-list.compon
     MatExpansionModule,
     MatInputModule,
     MatToolbarModule,
+    MatPaginatorModule,
     MatProgressSpinnerModule,
   ],
   providers: [],
