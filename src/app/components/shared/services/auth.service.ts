@@ -6,11 +6,14 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class AuthService {
-
-
+//Create a token variable to recieve the token from the backend
+private token: string;
 
   constructor(private http: HttpClient) { }
 
+  getToken() {
+    return this.token;
+  }
   createUser(email: string, password: string) {
     const authData: AuthData = {
       email: email,
@@ -26,9 +29,15 @@ login(email: string, password: string) {
     email: email,
     password: password
   }
-  this.http.post('http://localhost:3000/api/users/login', authData)
-  .subscribe(response => {
-    console.log(response);
+  this.http.post<{ token: string }>(
+    'http://localhost:3000/api/users/login',
+    authData
+    ).subscribe(response => {
+    //console.log(response);
+    const token = response.token;
+    this.token = token;
   })
 }
+
+
 }

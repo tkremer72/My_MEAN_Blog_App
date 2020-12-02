@@ -1,8 +1,8 @@
 const express = require('express');
 const multer = require('multer');
-const { createShorthandPropertyAssignment } = require('typescript');
 
 const Blog = require('../models/blog');
+const auth = require('../middleware/check-auth');
 
 const router = express.Router();
 //Create a helper for multer to determine the type of file to allow
@@ -27,8 +27,10 @@ const storage = multer.diskStorage({
     cb(null, name + '-' + Date.now() + '.' + ext);
   }
 });
+
+
 //Create a new blog
-router.post('', multer({ storage: storage }).single('image'), (req, res, next) => {
+router.post('', auth, multer({ storage: storage }).single('image'), (req, res, next) => {
   const url = req.protocol + '://' + req.get("host");
   const blog = new Blog({
     title: req.body.title,
@@ -50,7 +52,7 @@ router.post('', multer({ storage: storage }).single('image'), (req, res, next) =
   });
 });
 //Update a blog
-router.put('/:id', multer({ storage: storage }).single('image'),
+router.put('/:id', auth, multer({ storage: storage }).single('image'),
 (req, res, next) => {
   //console.log(req.file);
   let imagePath = req.body.imagePath;
@@ -107,7 +109,7 @@ router.get('/:id', (req, res, next) => {
   });
 });
 //Delete a blog
-router.delete('/:id', (req, res, next) => {
+router.delete('/:id', auth, (req, res, next) => {
   //console.log(req.params.id);
   Blog.deleteOne({
     _id: req.params.id

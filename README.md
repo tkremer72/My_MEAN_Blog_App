@@ -93,7 +93,10 @@ ng g interface components/shared/models/auth-data
 install jsonwebtoken on the backend
 npm install --save jsonwebtoken
 
+Create an interceptor for the token
+ng g interceptor components/shared/interceptors/auth
 
+Working on the UI Interface and messages.
 
 
 
