@@ -13,30 +13,35 @@ import { Blog } from '../models/blog.model';
 export class BlogsService {
 
   private blogs: Blog[] = [];
-  private blogsUpdated = new Subject<Blog[]>()
+  private blogsUpdated = new Subject<{ blogs: Blog[], blogCount: number }>()
 
   constructor(
     private http: HttpClient,
     private router: Router
   ) { }
 
-  getBlogs() {
-    this.http.get<{message: string, blogs: any}>(
-      'http://localhost:3000/api/blogs'
+  getBlogs(blogsPerPage: number, currentPage: number) {
+    const queryParams = `?pagesize=${blogsPerPage}&page=${currentPage}`;
+    this.http.get<{message: string, blogs: any, maxBlogs: number}>(
+      'http://localhost:3000/api/blogs' + queryParams
       ).pipe(map((blogData) => {
-        return blogData.blogs.map(blog => {
+        return { blogs: blogData.blogs.map(blog => {
           return {
             title: blog.title,
             content: blog.content,
             id: blog._id,
             imagePath: blog.imagePath
           };
-        });
+        }), maxBlogs: blogData.maxBlogs
+      };
       })
       )
-    .subscribe(transformedBlogs => {
-      this.blogs = transformedBlogs;
-      this.blogsUpdated.next([...this.blogs]);
+    .subscribe(transformedBlogsData => {
+      this.blogs = transformedBlogsData.blogs;
+      this.blogsUpdated.next({
+        blogs: [...this.blogs],
+        blogCount: transformedBlogsData.maxBlogs
+      });
     });
   }
 
@@ -60,16 +65,16 @@ export class BlogsService {
     this.http.post<{message: string, blog: Blog }>('http://localhost:3000/api/blogs', blogData)
     .subscribe((resData) => {
       //console.log(resData.message);
-      const blog: Blog = {
-        id: resData.blog.id,
-        title: title,
-        content: content,
-        imagePath: resData.blog.imagePath
-      }
-      /* const id = resData.blogId;
-      blog.id = id; */
-      this.blogs.push(blog);
-      this.blogsUpdated.next([...this.blogs]);
+      // const blog: Blog = {
+      //   id: resData.blog.id,
+      //   title: title,
+      //   content: content,
+      //   imagePath: resData.blog.imagePath
+      // }
+      // /* const id = resData.blogId;
+      // blog.id = id; */
+      // this.blogs.push(blog);
+      // this.blogsUpdated.next([...this.blogs]);
       this.router.navigate(['/'])
     });
   }
@@ -93,8 +98,8 @@ export class BlogsService {
       }
     }
     this.http.put('http://localhost:3000/api/blogs/' + id, blogData)
-    .subscribe(response => {
-      const updatedBlogs = [...this.blogs];
+    .subscribe(responseData => {
+      /* const updatedBlogs = [...this.blogs];
       const oldBlogIndex = updatedBlogs.findIndex(b => b.id === id);
       const blog: Blog = {
         id: id,
@@ -104,19 +109,21 @@ export class BlogsService {
       }
       updatedBlogs[oldBlogIndex] = blog;
       this.blogs = updatedBlogs;
-      this.blogsUpdated.next([...this.blogs]);
+      this.blogsUpdated.next([...this.blogs]); */
       this.router.navigate(['/'])
     });
   }
+
 deleteBlog(blogId: string) {
-  this.http.delete('http://localhost:3000/api/blogs/' + blogId)
-  .subscribe(() => {
+  return this.http.delete('http://localhost:3000/api/blogs/' + blogId);
+  this.router.navigate(['/'])
+ /*  .subscribe(() => {
     //console.log('Deleted!');
     const updatedBlogs = this.blogs.filter(blog => {
       blog.id !== blogId
     });
     this.blogs = updatedBlogs;
     this.blogsUpdated.next([...this.blogs]);
-  });
+  }); */
 }
 }

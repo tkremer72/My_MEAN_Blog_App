@@ -73,6 +73,11 @@ npm install --save multer
 
 Next steps are to add pagination to the project on the front and backend. 
 
+Time to start working on authentication and authorization, begin by creating a signup and login component that live within an auth folder in the components folder.
+ng g c components/auth/signup
+ng g c components/auth/login
+
+
 
 
 
