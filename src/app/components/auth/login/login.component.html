@@ -1,1 +1,59 @@
-<p>login works!</p>
+<!--  Manually setting the textarea input values
+  <textarea rows="6" [value]="newBlog" #blogInput></textarea>
+ -->
+<!-- Two way data binding to get the input below -->
+<mat-card>
+  <!-- Show the spinner if isLoading is true -->
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+
+  <form (submit)="onLogin(loginForm)" #loginForm="ngForm" *ngIf="!isLoading">
+    <!-- <div>
+      <button mat-stroked-button type="button" (click)="filePicker.click()">Pick Image</button>
+      <input type="file" #filePicker (change)="onImagePicked($event)">
+    </div>
+    <div class="image-preview" *ngIf="imagePreview !== '' && imagePreview && form.get('image').valid">
+      <img [src]="imagePreview" [alt]="form.value.title">
+    </div> -->
+    <mat-form-field>
+      <input
+      matInput
+      type="email"
+      name="email"
+      ngModel
+      required
+      email
+      placeholder="E-Mail Address"
+      #emailInput="ngModel">
+
+      <mat-error *ngIf="emailInput.invalid">Please enter a valid email.</mat-error>
+
+    </mat-form-field>
+
+    <mat-form-field>
+
+      <input
+      matInput type="password"
+      name="password"
+      ngModel
+      placeholder="Password"
+      #passwordInput="ngModel"
+      required>
+
+      <mat-error *ngIf="passwordInput.invalid">Please enter a valid password.</mat-error>
+
+    </mat-form-field>
+
+    <button color="primary" mat-raised-button type="submit">
+      Login
+    </button>
+
+  </form>
+
+</mat-card>
+<!--  <hr>
+ -->
+<!-- <button (click)="onAddBlog(blogInput)">Save Blog</button>
+ -->
+<!-- String interpolation below -->
+<!-- Moved the blog output to the blog-list component <p>{{ newBlog }}</p>
+ -->
