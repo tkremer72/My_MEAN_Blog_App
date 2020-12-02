@@ -77,6 +77,23 @@ Time to start working on authentication and authorization, begin by creating a s
 ng g c components/auth/signup
 ng g c components/auth/login
 
+Create the user model on the backend and the routes for creating users.  Install mongoose unique validator
+
+npm install --save mongoose-unique-validator
+
+Install bcrypt and create the signup route that hashes the password
+npm install --save bcrypt
+
+in the frontend create a new service for the users to connect to the backend.
+
+ng g s components/shared/services/auth
+Create a new model on the frontend for the user
+ng g interface components/shared/models/auth-data
+
+install jsonwebtoken on the backend
+npm install --save jsonwebtoken
+
+
 
 
 

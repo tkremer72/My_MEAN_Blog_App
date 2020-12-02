@@ -5,6 +5,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 
 const blogsRoute = require('./routes/blogs');
+const usersRoute = require('./routes/users');
 
 const app = express()
 
@@ -39,6 +40,7 @@ app.use((req, res, next) => {
 
 //Use the express router to get to the routes
 app.use('/api/blogs', blogsRoute);
+app.use('/api/users', usersRoute);
 
 
 module.exports = app;
