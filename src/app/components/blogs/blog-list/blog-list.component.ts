@@ -1,10 +1,10 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
-
-import { BlogsService } from '../../shared/services/blogs.service';
-
+import { AuthService } from '../../shared/services/auth.service';
 import { Blog } from '../../shared/models/blog.model';
+import { BlogsService } from '../../shared/services/blogs.service';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+
 import { PageEvent } from '@angular/material/paginator';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-blog-list',
@@ -49,10 +49,13 @@ export class BlogListComponent implements OnInit, OnDestroy {
   pageSizeOptions = [1, 2, 5, 10];
 //create a variable for the current page
   currentPage = 1;
-
+  //Create a property to store whether the user is authenticated or not
+  userIsAuthenticated = false;
   private blogsSub: Subscription;
+  private authStatusSubs: Subscription;
 
   constructor(
+    private authService: AuthService,
     public blogsService: BlogsService
   ) { }
 
@@ -63,6 +66,11 @@ export class BlogListComponent implements OnInit, OnDestroy {
       this.isLoading = false;
       this.totalBlogs = blogData.blogCount;
       this.blogs = blogData.blogs;
+    });
+    this.userIsAuthenticated = this.authService.getIsAuth();
+    this.authStatusSubs = this.authService.getAuthStatusListener()
+    .subscribe(isAuthenticated => {
+      this.userIsAuthenticated = isAuthenticated;
     });
   }
 
@@ -83,6 +91,7 @@ this.blogsService.getBlogs(this.blogsPerPage, this.currentPage);
 
   ngOnDestroy() {
     //Remove the subscription and prevent memory leaks
+    this.authStatusSubs.unsubscribe();
     this.blogsSub.unsubscribe();
   }
 
