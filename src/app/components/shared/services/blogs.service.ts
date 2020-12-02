@@ -28,10 +28,12 @@ export class BlogsService {
           return {
             title: blog.title,
             content: blog.content,
-            id: blog._id
+            id: blog._id,
+            imagePath: blog.imagePath
           };
         });
-      }))
+      })
+      )
     .subscribe(transformedBlogs => {
       this.blogs = transformedBlogs;
       this.blogsUpdated.next([...this.blogs]);
@@ -43,29 +45,63 @@ export class BlogsService {
   }
 
   getBlog(id: string) {
-    return  this.http.get<{ _id: string, title: string, content: string }>('http://localhost:3000/api/blogs/' + id);
+    return  this.http.get<{ _id: string, title: string, content: string, imagePath: string }>(
+      'http://localhost:3000/api/blogs/' + id
+      );
     /* {...this.blogs.find(b => b.id === id)} */;
   }
 
-  addBlog(title: string, content: string) {
-    const blog: Blog = { id: null, title: title, content: content };
-    this.http.post<{message: string, blogId: string}>('http://localhost:3000/api/blogs', blog)
+  addBlog(title: string, content: string, image: File) {
+    //const blog: Blog = { id: null, title: title, content: content };
+    const blogData = new FormData();
+    blogData.append('title', title);
+    blogData.append('content', content);
+    blogData.append('image', image, title);
+    this.http.post<{message: string, blog: Blog }>('http://localhost:3000/api/blogs', blogData)
     .subscribe((resData) => {
       //console.log(resData.message);
-      const id = resData.blogId;
-      blog.id = id;
+      const blog: Blog = {
+        id: resData.blog.id,
+        title: title,
+        content: content,
+        imagePath: resData.blog.imagePath
+      }
+      /* const id = resData.blogId;
+      blog.id = id; */
       this.blogs.push(blog);
       this.blogsUpdated.next([...this.blogs]);
       this.router.navigate(['/'])
     });
   }
 
-  updateBlog(id: string, title: string, content: string) {
-    const blog: Blog = { id: id, title: title, content: content };
-    this.http.put('http://localhost:3000/api/blogs/' + id, blog)
+  updateBlog(id: string, title: string, content: string, image: File | string) {
+    //const blog: Blog = { id: id, title: title, content: content, imagePath: null };
+    //Check to see what type of  image is being sent, a file or a string
+    let blogData: Blog | FormData; //initialize blogData as a variable
+    if(typeof(image) === 'object') {
+      blogData = new FormData();
+      blogData.append('id', id);
+      blogData.append('title', title);
+      blogData.append('content', content);
+      blogData.append('image', image, title);
+    } else {
+       blogData = {
+        id: id,
+        title: title,
+        content: content,
+        imagePath: image
+      }
+    }
+    this.http.put('http://localhost:3000/api/blogs/' + id, blogData)
     .subscribe(response => {
       const updatedBlogs = [...this.blogs];
-      const oldBlogIndex = updatedBlogs.findIndex(b => b.id === blog.id);
+      const oldBlogIndex = updatedBlogs.findIndex(b => b.id === id);
+      const blog: Blog = {
+        id: id,
+        title: title,
+        content: content,
+        imagePath: ""
+      }
       updatedBlogs[oldBlogIndex] = blog;
       this.blogs = updatedBlogs;
       this.blogsUpdated.next([...this.blogs]);

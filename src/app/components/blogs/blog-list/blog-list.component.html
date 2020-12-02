@@ -10,7 +10,9 @@
 {{ blog.title }}
 
 </mat-expansion-panel-header>
-
+<div class="blog-image">
+  <img [src]="blog.imagePath" [alt]="blog.title">
+</div>
 <p>{{ blog.content }}</p>
 
 <mat-action-row>
