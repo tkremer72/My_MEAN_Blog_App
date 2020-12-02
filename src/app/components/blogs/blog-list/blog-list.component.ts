@@ -3,7 +3,7 @@ import { Subscription } from 'rxjs';
 
 import { BlogsService } from '../../shared/services/blogs.service';
 
-import { Blog } from '../blog.model';
+import { Blog } from '../../shared/models/blog.model';
 
 @Component({
   selector: 'app-blog-list',
