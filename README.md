@@ -97,8 +97,14 @@ Create an interceptor for the token
 ng g interceptor components/shared/interceptors/auth
 
 Working on the UI Interface and messages.
+starting out with creating a new branch called auth and switching into that branch.
+added project to auth branch, staged everything, committed everything and pushed everything.
 
+Time for some route guards to keep users from visiting routes that they aren't allowed to visit.
 
+ng g guard components/shared/guards/auth
+
+Set the token expiration time in the UI
 
 
 
