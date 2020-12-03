@@ -9,10 +9,11 @@ module.exports = (req, res, next) => {
   at 0. */
  try {
   const token = req.headers.authorization.split(" ")[1];
-  jwt.verify(
+  const decodedToken = jwt.verify(
     token,
     'this_is_the_secret_used_encrypt_the_password_this_should_be_long_and_should_never_be_exposed_to_anyone_especially_the_client_or_the_user'
     );
+    req.userData = { email: decodedToken.email, userId: decodedToken.userId }
     next();
  }  catch(error) {
   res.status(401).json({ message: "Request failed, authentication failed!"})

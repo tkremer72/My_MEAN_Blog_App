@@ -41,16 +41,18 @@ export class BlogListComponent implements OnInit, OnDestroy {
   //Set the blogs to an empty array
 /*   @Input()  */ blogs: Blog[] = [];
   isLoading = false;
-//total number of pages
+  //total number of pages
   totalBlogs = 0;
-//total number of blogs per page
+  //total number of blogs per page
   blogsPerPage = 2;
-//Options for how many blogs per page to display
+  //Options for how many blogs per page to display
   pageSizeOptions = [1, 2, 5, 10];
-//create a variable for the current page
+  //create a variable for the current page
   currentPage = 1;
   //Create a property to store whether the user is authenticated or not
   userIsAuthenticated = false;
+  //Create a property to store the user Id fetched from the backend
+  userId: string;
   private blogsSub: Subscription;
   private authStatusSubs: Subscription;
 
@@ -62,24 +64,26 @@ export class BlogListComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.isLoading = true;
     this.blogsService.getBlogs(this.blogsPerPage, this.currentPage);
-    this.blogsSub = this.blogsService.getBlogUpdateListener().subscribe((blogData: {blogs: Blog[], blogCount: number}) => {
+    this.userId = this.authService.getUserId();
+    this.blogsSub = this.blogsService.getBlogUpdateListener().subscribe((blogData: { blogs: Blog[], blogCount: number }) => {
       this.isLoading = false;
       this.totalBlogs = blogData.blogCount;
       this.blogs = blogData.blogs;
     });
     this.userIsAuthenticated = this.authService.getIsAuth();
     this.authStatusSubs = this.authService.getAuthStatusListener()
-    .subscribe(isAuthenticated => {
-      this.userIsAuthenticated = isAuthenticated;
-    });
+      .subscribe(isAuthenticated => {
+        this.userIsAuthenticated = isAuthenticated;
+        this.userId = this.authService.getUserId();
+      });
   }
 
   onChangedPage(pageData: PageEvent) {
-//console.log(pageData);
-this.isLoading = true;
-this.currentPage = pageData.pageIndex + 1;
-this.blogsPerPage = pageData.pageSize;
-this.blogsService.getBlogs(this.blogsPerPage, this.currentPage);
+    //console.log(pageData);
+    this.isLoading = true;
+    this.currentPage = pageData.pageIndex + 1;
+    this.blogsPerPage = pageData.pageSize;
+    this.blogsService.getBlogs(this.blogsPerPage, this.currentPage);
   }
 
   onDelete(blogId: string) {

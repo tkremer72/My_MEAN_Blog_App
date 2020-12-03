@@ -106,6 +106,8 @@ ng g guard components/shared/guards/auth
 
 Set the token expiration time in the UI
 
+Create an interceptor for error handling 
+
 
 
 

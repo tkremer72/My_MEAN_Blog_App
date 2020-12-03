@@ -58,7 +58,8 @@ export class BlogCreateComponent implements OnInit {
             id: blogData._id,
             title: blogData.title,
             content: blogData.content,
-            imagePath: blogData.imagePath
+            imagePath: blogData.imagePath,
+            creator: blogData.creator
           };
           this.form.setValue({
             'title': this.blog.title,
