@@ -11,7 +11,7 @@ const app = express()
 
 mongoose.connect(
   'mongodb+srv://tbone7243:Daddykjune1!@cluster0.lebuw.mongodb.net/My_MERN_Blog?retryWrites=true&w=majority',
-  { useUnifiedTopology: true, useNewUrlParser: true }
+  { useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true }
 ).then(() => {
   console.log('Connected to the database!');
 }).catch(() => {
