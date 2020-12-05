@@ -107,6 +107,15 @@ ng g guard components/shared/guards/auth
 Set the token expiration time in the UI
 
 Create an interceptor for error handling 
+Create an global error interceptor that will handle all errors.
+use the mat dialog service.
+Create a component to display our error on.
+
+Create an angular-material.module.ts file to separate the app into feature modules. Move all material related items to this file.
+
+Create a blog.module.ts file and move blogcreate and bloglist to this feature module.
+
+
 
 Changed the app.js and the file.js to serve from the backend, see comments there. 
 

@@ -19,8 +19,8 @@ exports.registerUser = (req, res, next) => {
       });
     }).catch(err => {
       res.status(500).json({
-        error: err
-      })
+          message: 'Invalid authentication credentials!'
+      });
     });
   });
 }
@@ -57,7 +57,7 @@ exports.loginUser = (req, res, next) => {
     });
   }).catch(err => {
     return res.status(404).json({
-      message: 'Authorization failed!'
+      message: 'Invalid authentication credentials!'
     });
   });
 }
