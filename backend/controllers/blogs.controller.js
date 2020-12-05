@@ -21,6 +21,10 @@ exports.createBlog = (req, res, next) => {
         imagePath: createdBlog.imagePath */
       }
     });
+  }).catch(error => {
+    res.status(500).json({
+      message: 'Creating a blog failed!  Please try again later.'
+    });
   });
 }
 
@@ -49,6 +53,10 @@ exports.updateBlog = (req, res, next) => {
       } else {
         res.status(401).json({ message: 'Update unsuccessful! You are not authorized!' });
       }
+    }).catch(error => {
+      res.status(500).json({
+        message: 'Could not update blog!  Please try again later.'
+      });
     });
 }
 
@@ -74,7 +82,11 @@ exports.getBlogs = (req, res, next) => {
         blogs: fetchedBlogs,
         maxBlogs: count
       });
-    })
+    }).catch(error => {
+      res.status(500).json({
+        message: 'Fetching blogs failed! Please try again later.'
+      });
+    });
 }
 
 exports.getBlog = (req, res, next) => {
@@ -84,6 +96,10 @@ exports.getBlog = (req, res, next) => {
     } else {
       res.status(404).json({ message: 'Blog not found!' })
     }
+  }).catch(error => {
+    res.status(500).json({
+      message: 'Could not fetch this blog.  Please try again later.'
+    });
   });
 }
 
@@ -100,5 +116,9 @@ exports.deleteBlog = (req, res, next) => {
       } else {
         res.status(401).json({ message: 'Delete blog unsuccessful! You are not authorized!' });
       }
+    }).catch(error => {
+      res.status(500).json({
+        message: 'Could not delete blog, please try again later.'
+      });
     });
 }

@@ -1,17 +1,19 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { BlogsService } from '../../shared/services/blogs.service';
 
 import { Blog } from '../../shared/models/blog.model';
 import { mimeType } from '../../shared/models/mime-type.validator';
+import { Subscription } from 'rxjs';
+import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
   selector: 'app-blog-create',
   templateUrl: './blog-create.component.html',
   styleUrls: ['./blog-create.component.css']
 })
-export class BlogCreateComponent implements OnInit {
+export class BlogCreateComponent implements OnInit, OnDestroy {
   // Add some dummy content to create a blog
   //newBlog = 'NO CONTENT AVAILABLE';
   //Using two way data binding to extract input
@@ -23,6 +25,7 @@ export class BlogCreateComponent implements OnInit {
   form: FormGroup;
   private mode = 'create';
   private blogId: string;
+  private authStatusSubs: Subscription;
 
 
 
@@ -30,10 +33,15 @@ export class BlogCreateComponent implements OnInit {
    */
   constructor(
     public blogsService: BlogsService,
-    public route: ActivatedRoute
+    public route: ActivatedRoute,
+    private authService: AuthService
   ) { }
 
   ngOnInit() {
+    this.authStatusSubs = this.authService.getAuthStatusListener().subscribe(
+      authStatus => {
+        this.isLoading = false;
+      });
     this.form = new FormGroup({
       'title': new FormControl(null, {
         validators: [ Validators.required, Validators.minLength(3) ]
@@ -121,5 +129,8 @@ export class BlogCreateComponent implements OnInit {
     }
     //reset the form after clicking submit
     this.form.reset();
+  }
+  ngOnDestroy() {
+    this.authStatusSubs.unsubscribe();
   }
 }
