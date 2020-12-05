@@ -108,6 +108,6 @@ Set the token expiration time in the UI
 
 Create an interceptor for error handling 
 
-
+Changed the app.js and the file.js to serve from the backend, see comments there. 
 
 

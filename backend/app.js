@@ -4,8 +4,8 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
 
-const blogsRoute = require('./routes/blogs');
-const usersRoute = require('./routes/users');
+const blogsRoute = require('./routes/blogs.routes');
+const usersRoute = require('./routes/users.routes');
 
 const app = express()
 
@@ -20,9 +20,11 @@ mongoose.connect(
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
-app.use('/images', express.static(path.join('backend/images')));
-//Below is the automatic CORS policy set by express.
-app.use(cors())
+//Next line is when serving from the frontend angular folder
+//app.use('/images', express.static(path.join('backend/images')));
+/* this next line has to change from join backend/images to just
+images when serving from within the backend folder*/
+app.use('/images', express.static(path.join('images')));
 
 //Below is manually setting the CORS Policy
 app.use((req, res, next) => {
@@ -37,6 +39,8 @@ app.use((req, res, next) => {
     );
  next();
 });
+//Below is the automatic CORS policy set by express.
+app.use(cors())
 
 //Use the express router to get to the routes
 app.use('/api/blogs', blogsRoute);
