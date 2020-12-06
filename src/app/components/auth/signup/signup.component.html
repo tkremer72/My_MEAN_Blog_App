@@ -23,7 +23,8 @@
       required
       email
       placeholder="E-Mail Address"
-      #emailInput="ngModel">
+      #emailInput="ngModel"
+      autocomplete="on">
 
       <mat-error *ngIf="emailInput.invalid">Please enter a valid email.</mat-error>
 
@@ -37,7 +38,8 @@
       ngModel
       placeholder="Password"
       #passwordInput="ngModel"
-      required>
+      required
+      autocomplete="on">
 
       <mat-error *ngIf="passwordInput.invalid">Please enter a valid password.</mat-error>
 

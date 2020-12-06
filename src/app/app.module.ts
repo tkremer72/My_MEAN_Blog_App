@@ -1,41 +1,34 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule } from '@angular/core';
-// Bring in the FormsModule
-//import { FormsModule } from '@angular/forms';
-import { FormsModule } from '@angular/forms';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-
+import { AngularMaterialModule } from './angular-material.module';
 import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
+//import { AuthModule } from './components/auth/auth.module';
+import { BlogsModule } from './components/blogs/blogs.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { NgModule } from '@angular/core';
 
 //Bring in the AuthInterceptor
 import { AuthInterceptor } from './components/shared/interceptors/auth.interceptor';
 import { ErrorInterceptor } from './components/shared/interceptors/error.interceptor';
 
-
+import { AppComponent } from './app.component';
 import { ErrorComponent } from './components/error/error.component';
 import { HeaderComponent } from './components/header/header.component';
-import { SignupComponent } from './components/auth/signup/signup.component';
-import { LoginComponent } from './components/auth/login/login.component';
-import { AngularMaterialModule } from './angular-material.module';
-import { BlogsModule } from './components/blogs/blogs.module';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     ErrorComponent,
-    HeaderComponent,
-    SignupComponent,
-    LoginComponent
+    HeaderComponent
   ],
   imports: [
     AngularMaterialModule,
+    //AuthModule,
     BlogsModule,
     BrowserAnimationsModule,
     BrowserModule,
     AppRoutingModule,
-    FormsModule,
     HttpClientModule,
 
   ],

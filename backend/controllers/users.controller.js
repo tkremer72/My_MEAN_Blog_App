@@ -46,7 +46,7 @@ exports.loginUser = (req, res, next) => {
     const token = jwt.sign({
       email: fetchedUser.email, userId: fetchedUser._id
     },
-    'this_is_the_secret_used_encrypt_the_password_this_should_be_long_and_should_never_be_exposed_to_anyone_especially_the_client_or_the_user',
+    process.env.JWT,
     {
       expiresIn: '1h'
     });

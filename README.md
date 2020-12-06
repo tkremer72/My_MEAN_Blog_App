@@ -115,6 +115,14 @@ Create an angular-material.module.ts file to separate the app into feature modul
 
 Create a blog.module.ts file and move blogcreate and bloglist to this feature module.
 
+create an auth.module.ts file and move login and signup to it.
+
+Next working on lazy loading. 
+
+Created global angular configuration using the environment variable, for production as well as development.
+
+Create global environemental variables for nodejs useing nodemon.json
+
 
 
 Changed the app.js and the file.js to serve from the backend, see comments there. 

@@ -10,8 +10,8 @@ const usersRoute = require('./routes/users.routes');
 const app = express()
 
 mongoose.connect(
-  'mongodb+srv://tbone7243:Daddykjune1!@cluster0.lebuw.mongodb.net/My_MERN_Blog?retryWrites=true&w=majority',
-  { useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true }
+  "mongodb+srv://" + process.env.DBUSER + ":" + process.env.DBPW + "@cluster0.lebuw.mongodb.net/"+ process.env.DBNAME + "?retryWrites=true&w=majority",
+  { useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true, useFindAndModify: false }
 ).then(() => {
   console.log('Connected to the database!');
 }).catch(() => {
@@ -24,7 +24,8 @@ app.use(bodyParser.urlencoded({ extended: false }))
 //app.use('/images', express.static(path.join('backend/images')));
 /* this next line has to change from join backend/images to just
 images when serving from within the backend folder*/
-app.use('/images', express.static(path.join('images')));
+app.use('/images', express.static(path.join(__dirname, 'images')));
+app.use('/', express.static(path.join(__dirname, 'angular')));
 
 //Below is manually setting the CORS Policy
 app.use((req, res, next) => {
@@ -45,6 +46,9 @@ app.use(cors())
 //Use the express router to get to the routes
 app.use('/api/blogs', blogsRoute);
 app.use('/api/users', usersRoute);
+app.use((req, res, next) =>{
+  res.sendFile(path.join(__dirname, "angular", "index.html"));
+} );
 
 
 module.exports = app;

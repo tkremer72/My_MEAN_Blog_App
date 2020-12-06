@@ -1,11 +1,14 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
-import { Router } from '@angular/router';
-
-import { Subject } from 'rxjs';
 //Bring in the Blog model
 import { Blog } from '../models/blog.model';
+import { environment } from '../../../../environments/environment';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { map } from 'rxjs/operators';
+import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
+
+
+const BACKEND = environment.apiUrl + "/blogs/";
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +26,7 @@ export class BlogsService {
   getBlogs(blogsPerPage: number, currentPage: number) {
     const queryParams = `?pagesize=${blogsPerPage}&page=${currentPage}`;
     this.http.get<{ message: string, blogs: any, maxBlogs: number }>(
-      'http://localhost:3000/api/blogs' + queryParams
+      BACKEND + queryParams
     ).pipe(map((blogData) => {
       return {
         blogs: blogData.blogs.map(blog => {
@@ -59,7 +62,7 @@ export class BlogsService {
       imagePath: string,
       creator: string
     }>(
-      'http://localhost:3000/api/blogs/' + id
+      BACKEND + id
     );
     /* {...this.blogs.find(b => b.id === id)} */;
   }
@@ -74,7 +77,7 @@ export class BlogsService {
       message: string,
       blog: Blog
     }>(
-      'http://localhost:3000/api/blogs',
+      BACKEND,
       blogData
     )
       .subscribe((resData) => {
@@ -112,7 +115,7 @@ export class BlogsService {
         creator: null
       }
     }
-    this.http.put('http://localhost:3000/api/blogs/' + id, blogData)
+    this.http.put(BACKEND + id, blogData)
       .subscribe(responseData => {
         /* const updatedBlogs = [...this.blogs];
         const oldBlogIndex = updatedBlogs.findIndex(b => b.id === id);
@@ -130,7 +133,7 @@ export class BlogsService {
   }
 
   deleteBlog(blogId: string) {
-    return this.http.delete('http://localhost:3000/api/blogs/' + blogId);
+    return this.http.delete(BACKEND + blogId);
     this.router.navigate(['/'])
     /*  .subscribe(() => {
        //console.log('Deleted!');

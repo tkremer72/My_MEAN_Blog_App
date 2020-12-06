@@ -1,8 +1,11 @@
 import { AuthData } from '../../shared/models/auth-data.model';
+import { environment } from '../../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
+
+const BACKEND = environment.apiUrl + "/users";
 
 @Injectable({
   providedIn: 'root'
@@ -50,7 +53,7 @@ getUserId() {
       email: email,
       password: password
     }
-    this.http.post('http://localhost:3000/api/users/signup', authData)
+    this.http.post(BACKEND + '/signup', authData)
       .subscribe(() => {
         this.router.navigate(['/'])
       }, error => {
@@ -66,7 +69,7 @@ getUserId() {
       password: password
     }
     this.http.post<{ token: string, expiresIn: number, userId: string }>(
-      'http://localhost:3000/api/users/login',
+      BACKEND + '/login',
       authData
     ).subscribe(response => {
       //console.log(response);
